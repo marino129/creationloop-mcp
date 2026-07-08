@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60" width="120" height="60">
+  <path d="M 15 30 L 30 15 L 45 15 L 75 45 L 90 45 L 105 30 L 90 15 L 75 15 L 45 45 L 30 45 Z" stroke="#FFFFFF" stroke-width="10" stroke-linejoin="miter" fill="none"/>
+  <path d="M 60 30 L 45 45 L 30 45 L 15 30 L 30 15 L 45 15 Z" stroke="#3B82F6" stroke-width="4" stroke-linejoin="miter" stroke-linecap="square" fill="none"/>
+  <path d="M 60 30 L 75 15 L 90 15 L 105 30 L 90 45 L 75 45 Z" stroke="#8B5CF6" stroke-width="4" stroke-linejoin="miter" stroke-linecap="square" fill="none"/>
+  <circle cx="15" cy="30" r="3" fill="#1A1D24" stroke="#3B82F6" stroke-width="1.5"/>
+  <circle cx="45" cy="15" r="3" fill="#1A1D24" stroke="#3B82F6" stroke-width="1.5"/>
+  <circle cx="45" cy="45" r="3" fill="#1A1D24" stroke="#3B82F6" stroke-width="1.5"/>
+  <circle cx="105" cy="30" r="3" fill="#1A1D24" stroke="#8B5CF6" stroke-width="1.5"/>
+  <circle cx="75" cy="15" r="3" fill="#1A1D24" stroke="#8B5CF6" stroke-width="1.5"/>
+  <circle cx="75" cy="45" r="3" fill="#1A1D24" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="57" y="27" width="6" height="6" fill="#FFFFFF"/>
+</svg>
