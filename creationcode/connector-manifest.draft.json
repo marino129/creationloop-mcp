@@ -1,0 +1,33 @@
+{
+  "id": "creationcode",
+  "name": "CreationCode",
+  "status": "blocked-draft",
+  "endpoint": "https://creation-code.replit.app/mcp",
+  "transport": "streamable-http",
+  "protocolVersion": "2026-07-28",
+  "authentication": {
+    "type": "oauth2",
+    "provider": "founder-decision-required",
+    "scopes": [
+      "creationcode:chat",
+      "creationcode:jobs:read",
+      "creationcode:requests:submit",
+      "creationcode:builds:approve",
+      "creationcode:merges:approve",
+      "creationcode:receipts:read"
+    ]
+  },
+  "humanApprovalRequiredFor": [
+    "creationcode_submit_request",
+    "creationcode_approve_and_build",
+    "creationcode_approve_merge"
+  ],
+  "views": [
+    "ui://creationcode/v1/final-request",
+    "ui://creationcode/v1/plan-approval",
+    "ui://creationcode/v1/build-progress",
+    "ui://creationcode/v1/pull-request",
+    "ui://creationcode/v1/receipt"
+  ],
+  "publish": false
+}
