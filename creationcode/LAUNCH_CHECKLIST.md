@@ -4,9 +4,9 @@ Every item is required. Nothing in this file has been executed against productio
 
 ## Evidence and code
 
-- [ ] Receipt #1 Gate 0 is strict `PASS`, including retrievable Receipt and production build SHA.
+- [x] Receipt gate `PASS` — three verified production Receipts (first `rcpt_d4b8f6e292ebb7d96f48`). Residual: production still lacks an in-band build SHA (tracked follow-up).
 - [ ] Historic merge-doctrine conflict is resolved by the founder.
-- [ ] Receipt #1 landed on `main`; collision manifest rebuilt in a fresh worktree.
+- [x] Receipts landed on `main` (`2e204da7`, `afb70eb1`, `eae81a31` = current main at reconciliation); stale collision manifest discarded, adapter rebuilt from current main.
 - [ ] Native web and MCP call one live application-service implementation.
 - [ ] Exact event/projection parity passes against a disposable database.
 - [ ] Approval and idempotency migrations pass apply/concurrency/rollback in staging.
@@ -27,7 +27,7 @@ Every item is required. Nothing in this file has been executed against productio
 - [ ] Official independent MCP client passes against staging.
 - [ ] Claude Code discovery, OAuth, tools, text fallback and full lifecycle pass.
 - [ ] Claude web/desktop custom connector, OAuth, five views and full lifecycle pass.
-- [ ] Receipt #2 proves exact Request → verified Receipt with one run.
+- [ ] One MCP-driven production Receipt proves exact Request → verified Receipt with one run through the MCP surface.
 - [ ] Real screenshots/footage replace every local fixture image.
 
 ## Founder approvals

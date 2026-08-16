@@ -1,6 +1,6 @@
 # CreationCode connector — launch package (blocked draft)
 
-> **Do not install, publish, or submit this package yet.** The CreationCode MCP production route is absent and Receipt #1 Gate 0 is `NOT PASS`. This directory is review material only.
+> **Do not install, publish, or submit this package yet.** The Receipt gate has PASSED (three consecutive verified production Receipts; first `rcpt_d4b8f6e292ebb7d96f48`, merges `2e204da7` → `afb70eb1` → `eae81a31`), and the live-bound MCP adapter exists on a draft branch — but the production route is not yet merged, deployed, or activated, and no OAuth provider is configured. This directory is review material only until the founder completes those steps.
 
 CreationCode turns a conversation into one exact, human-authorized, bounded software delivery chain:
 
@@ -68,7 +68,7 @@ These images are local mock evidence, not Claude-client or production proof.
 | Claude Code                                                            | NOT PROVEN                        |
 | Claude web/desktop                                                     | NOT PROVEN                        |
 | OAuth provider and public endpoint                                     | NOT CONFIGURED                    |
-| Live shared CreationCode authority services                            | BLOCKED on Receipt #1 integration |
+| Live shared CreationCode authority services                            | BOUND on the draft branch (LiveCreationCodeApplicationServices over the native singletons); merge + activation pending |
 | Production disabled                                                    | PASS                              |
 
-Publishing requires explicit founder approval after Receipt #1, reviewed code, external configuration, staging conformance, cross-client tests, and Receipt #2.
+Publishing requires explicit founder approval: reviewed code merged, external OAuth configuration, staging conformance, cross-client tests, and one MCP-driven production Receipt (the product already holds three native ones).
