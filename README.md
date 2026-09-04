@@ -129,6 +129,34 @@ returns an error asking the applicant to email the founder directly instead.
 
 ---
 
+
+## Private GTM review plugin
+
+The same hosted MCP endpoint can expose one additional advisory-only tool,
+`review_gtm_sweep`, to an authenticated CreationLoop operator. The tool reviews
+a ten-person creationcode prospect packet and returns recommendations. It cannot
+approve, send, connect, comment, or perform any external action.
+
+The Cursor/GrokBot plugin in this repository declares `GTM_REVIEW_TOKEN` as a
+protected plugin variable. Cursor stores the value through its plugin
+configuration surface and injects it into the HTTP MCP authorization header. Do
+not place the token in chat, source code, `mcp.json`, a URL, or shell history.
+
+To install:
+
+1. Paste `https://github.com/marino129/creationloop-mcp` into the plugin search.
+2. Install `creationloop-gtm-review`.
+3. Open the plugin's Configure screen.
+4. Enter `GTM_REVIEW_TOKEN` in the protected variable field.
+5. Attach the plugin to GrokBot and list tools. The authenticated connection
+   exposes only `review_gtm_sweep`; it does not grant the public application
+   submission tool or any execution capability.
+
+The repository contains only the `${GTM_REVIEW_TOKEN}` placeholder. Secret
+material remains outside Git.
+
+---
+
 ## Connect
 
 The server is a remote Streamable HTTP MCP server with no authentication. Use the

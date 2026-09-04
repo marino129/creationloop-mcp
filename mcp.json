@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "creationloop-gtm-review": {
+      "url": "https://creationloop.ai/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${GTM_REVIEW_TOKEN}"
+      }
+    }
+  }
+}

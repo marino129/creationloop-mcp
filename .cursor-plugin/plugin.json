@@ -1,0 +1,31 @@
+{
+  "name": "creationloop-gtm-review",
+  "version": "0.1.0",
+  "description": "Securely submit researched creationcode prospect sweeps to CreationLoop for advisory review. This plugin cannot approve or execute outreach.",
+  "author": {
+    "name": "CreationLoop"
+  },
+  "logo": "logo.png",
+  "keywords": [
+    "creationloop",
+    "creationcode",
+    "gtm",
+    "prospecting",
+    "review"
+  ],
+  "variables": {
+    "type": "object",
+    "properties": {
+      "GTM_REVIEW_TOKEN": {
+        "type": "string",
+        "title": "CreationLoop GTM review token",
+        "description": "Dedicated bearer token for the advisory-only CreationLoop GTM review tool.",
+        "minLength": 32
+      }
+    },
+    "required": [
+      "GTM_REVIEW_TOKEN"
+    ]
+  },
+  "mcpServers": "mcp.json"
+}

@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "ai.creationloop/creationloop",
-  "description": "CreationLoop is your Marketing Agent. Read the overview, offer, and FAQ; apply as a design partner.",
-  "version": "0.1.0",
+  "description": "CreationLoop remote MCP. Public company and design-partner tools require no authentication; authenticated operators can also use the advisory-only GTM review tool.",
+  "version": "0.2.0",
   "repository": {
     "url": "https://github.com/marino129/creationloop-mcp",
     "source": "github"
