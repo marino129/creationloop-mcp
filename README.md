@@ -148,8 +148,9 @@ To install:
 2. Install `creationloop-gtm-review`.
 3. Open the plugin's Configure screen.
 4. Enter `GTM_REVIEW_TOKEN` in the protected variable field.
-5. Attach the plugin to GrokBot and list tools. An authenticated connection shows
-   `review_gtm_sweep` in addition to the four public tools.
+5. Attach the plugin to GrokBot and list tools. The authenticated connection
+   exposes only `review_gtm_sweep`; it does not grant the public application
+   submission tool or any execution capability.
 
 The repository contains only the `${GTM_REVIEW_TOKEN}` placeholder. Secret
 material remains outside Git.
