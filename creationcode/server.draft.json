@@ -1,0 +1,23 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.marino129/creationcode",
+  "description": "CreationCode turns a human-approved Request into one bounded build, verified PR, and Receipt.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/marino129/creationloop-mcp",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://creation-code.replit.app/mcp"
+    }
+  ],
+  "_meta": {
+    "io.github.marino129/launch-status": {
+      "publish": false,
+      "reason": "Receipt #1 Gate 0 is NOT PASS and the production MCP route is absent",
+      "protocolVersion": "2026-07-28"
+    }
+  }
+}
