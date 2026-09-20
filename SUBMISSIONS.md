@@ -1,115 +1,46 @@
-# Submissions Runbook
+# Existing-listing migration: CreationCode
 
-A step-by-step runbook for the founder to list the CreationLoop MCP server in the
-public MCP directories. Every step is manual founder execution. Nothing here is
-automated, and none of it has been run.
+Prepared September 19, 2026. This replaces the old marketing-agent submission runbook. Repository changes, production release, registry publication, and directory updates are distinct steps. Do not mark a step complete without checking the actual result.
 
-## Before you start
+## Current approved listing copy
 
-Complete these prerequisites once; every directory depends on them.
+Display title: **CreationCode public discovery (CreationLoop MCP)**
 
-1. **Create the public repository.** Push the reviewed contents of this folder to
-   a public GitHub repo. Working name: `creationloop-mcp`
-   (`https://github.com/marino129/creationloop-mcp`). If you use a different name
-   or owner, update the `repository.url` in `server.json` and every repo link
-   below to match.
-2. **Add the logo.** Export `logo.png` (400x400) from `brand-mark-source.svg` per
-   `LOGO_SPEC.md` and commit it to the repo root. The Cline marketplace requires
-   it.
-3. **Confirm the live endpoint.** From a normal network, run:
-   ```sh
-   curl -sS https://creationloop.ai/api/mcp \
-     -H "Content-Type: application/json" \
-     -H "Accept: application/json" \
-     -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
-   ```
-   The response must list `get_company_overview`, `get_design_partner_offer`,
-   `get_faq`, and `submit_design_partner_application`. If it does not, stop and
-   reconcile the README before submitting anywhere.
-4. **Verify the schema version.** Open the `$schema` URL in `server.json` in a
-   browser and confirm it resolves. The MCP registry schema is versioned by date;
-   if a newer version is published, update the URL before running the registry
-   publish flow.
+Short description: **CreationCode product information and design-partner signup. Public discovery only; no build execution.**
 
-## 1. Official MCP registry (registry.modelcontextprotocol.io)
+Category request: developer tools / software development. Do not retain the autonomous marketing-agent service promise. Do not imply that this public endpoint is the authenticated build connector.
 
-The official registry validates `server.json` and requires you to prove ownership
-of the namespace.
+Preserve:
+- Repository: https://github.com/marino129/creationloop-mcp
+- Namespace: `ai.creationloop/creationloop`
+- Endpoint: `https://creationloop.ai/api/mcp`
+- Existing four public tool names, no public credentials, stateless Streamable HTTP
+- Private GTM plugin identity, token handling, and advisory-only authority
 
-1. Confirm `server.json` is at the root of the public repo and validates against
-   its `$schema`.
-2. The server `name` is `ai.creationloop/creationloop`, which is a DNS-based
-   namespace. You must prove control of `creationloop.ai`. Follow the registry's
-   current publishing guide at
-   `https://github.com/modelcontextprotocol/registry` (the `docs/guides/publishing`
-   section) to install the `mcp-publisher` CLI.
-3. Authenticate with DNS verification for `creationloop.ai`:
-   ```sh
-   mcp-publisher login dns --domain creationloop.ai
-   ```
-   Add the TXT record it prints to the `creationloop.ai` DNS zone, then complete
-   the login.
-4. Publish from the repo root:
-   ```sh
-   mcp-publisher publish
-   ```
-5. Confirm the entry appears via the registry API:
-   ```sh
-   curl -sS "https://registry.modelcontextprotocol.io/v0/servers?search=creationloop"
-   ```
+## Release order
 
-## 2. Cline marketplace (github.com/cline/mcp-marketplace)
+1. Review and merge the companion `marino129/creationloop` repair through the founder's normal gate. Run repository typecheck, integration tests, full landing build and copy checks. Only the founder merges and publishes.
+2. Publish the application and website through their existing release paths. Read-only checks must confirm current MCP copy, unchanged public tools, correct `llms.txt` and `llms-full.txt`, and unchanged authenticated GTM permissions. Use an isolated email sink for signup tests, never a real prospect address.
+3. Merge this listing update after the runtime contract is verified. Confirm the latest published registry version before selecting/publishing the manifest version; the manifest is a candidate, not evidence of publication.
+4. Update the existing official registry entry through the founder's authenticated publisher. Do not create a new namespace or rotate DNS/token configuration merely to change copy.
+5. Request refresh of each existing directory below. Record request IDs, final URLs, and the rendered description after refresh. A repository merge alone is not a directory update.
 
-Cline listings are added by opening a GitHub issue on the marketplace repo.
+## Surfaces to reconcile
 
-1. Go to `https://github.com/cline/mcp-marketplace/issues/new/choose` and pick the
-   MCP server submission template.
-2. Fill in the required fields:
-   - **GitHub Repo URL:** `https://github.com/marino129/creationloop-mcp`
-   - **Logo Image:** attach the 400x400 `logo.png`.
-   - **Reason for Addition:** a short note on why the server is useful to Cline
-     users. Keep it to CreationLoop's ratified public framing: CreationLoop is your
-     Marketing Agent; verified agent output, the recursive loop that gets better,
-     and proves it. The server lets an agent read the company overview, the
-     design-partner offer, and the FAQ, and submit a design-partner application.
-   - **Testing Confirmation:** before submitting, hand Cline only this repo's
-     `README.md` and `llms-install.md` and confirm it connects the remote server
-     and lists the four tools with no other help. Check the confirmation box.
-3. Submit the issue and respond to any maintainer follow-up.
+| Surface | Evidence / current state | Required action |
+| --- | --- | --- |
+| Cline marketplace | Existing publisher-owned issue https://github.com/cline/mcp-marketplace/issues/1981 was updated September 19 with CreationCode positioning and an explicit pending fresh-validation checkbox. The marketplace submission remains open. | After release, provide verification evidence; do not reassert the original July installation checks as a new test. |
+| MCPServers | https://mcpservers.org/servers/marino129/creationloop-mcp still advertised the marketing agent when audited. | Use the existing page's Request update control; request refreshed README, description, and category after release. |
+| Glama | https://glama.ai/mcp/connectors/ai.creationloop/creationloop still advertised the marketing agent. Its page offers ownership claiming and listing management. | Use the founder's existing ownership access or documented claim flow, then update the existing entry and verify rendered metadata. No claim or update was performed here. |
+| MCP.so | https://mcp.so/servers/creationloop-mcp distributes the legacy discovery listing. | Refresh the existing entry from the corrected repository; verify description and category. No refresh was submitted here. |
+| Official MCP registry | Existing manifest uses `ai.creationloop/creationloop`; direct API verification was unavailable during this audit. | Check the authoritative current version and publish through the existing authenticated publisher. No registry publish was performed here. |
+| mcpmarket.com | Included in the original submission runbook; a current public entry was not verified. | Find the existing publisher entry before editing; do not create a duplicate based on this checklist. |
+| Downstream mirrors | AI Library and TokenySpace search results repeat the old marketing-agent description. | Recheck after upstream publication; request correction where stale. Do not claim these mirrors supplied a lead. |
 
-## 3. mcpmarket.com
+## Source attribution is not yet solved by this copy release
 
-1. Go to `https://mcpmarket.com/submit`.
-2. Provide the public repo URL `https://github.com/marino129/creationloop-mcp` and,
-   if asked, the remote endpoint `https://creationloop.ai/api/mcp`.
-3. Fill in name (CreationLoop), the one-line description from `server.json`,
-   category (marketing or similar), and upload the logo if requested.
-4. Mark the transport as remote Streamable HTTP and note that no authentication is
-   required.
-5. Submit and wait for review.
+The legacy source suffix is the applicant's website, not the directory that referred them. The companion hotfix adds complete applicant details to notifications and a server-reported submission channel. Discovery can be collected as self-reported message text now.
 
-## 4. mcp.so
+Separate implementation still required: nullable structured acquisition metadata, a checked-in reviewed migration, server-generated submission IDs, actual offer exposure tracking, privacy-safe first-touch/last-touch web attribution, and authenticated or explicitly self-reported directory identifiers. Keep historical unknown values unknown. Do not backfill a guessed referrer from an email domain, IP, or user-agent.
 
-1. Go to `https://mcp.so/submit` (linked as "Submit" from the mcp.so header).
-2. Provide the public repo URL `https://github.com/marino129/creationloop-mcp`.
-3. Fill in the name, description, and category. mcp.so reads much of the listing
-   from the repo `README.md`, so make sure it is current before submitting.
-4. Note the remote endpoint `https://creationloop.ai/api/mcp`, transport Streamable
-   HTTP, no authentication.
-5. Submit and wait for review.
-
-## 5. mcpservers.org
-
-1. Open `https://mcpservers.org` and find its "Add Server" or "Submit" entry
-   (mcpservers.org accepts listings by pull request to its source repository).
-2. Follow the site's submit link to its GitHub repo and open a pull request adding
-   the CreationLoop entry: name, description, remote endpoint
-   `https://creationloop.ai/api/mcp`, transport Streamable HTTP, no auth, and the
-   repo link.
-3. Submit the pull request and respond to review.
-
-## After submitting
-
-- Record each submission's URL and status somewhere durable.
-- If a directory rejects or requests changes, fix the repo contents first, then
-  resubmit. The public README is the source of truth every directory reads.
+No deployment, DNS edit, registry publication, credential rotation, paid build, or outreach to applicants is authorized by a documentation edit.

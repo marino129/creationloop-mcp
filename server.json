@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "ai.creationloop/creationloop",
-  "description": "CreationLoop remote MCP. Public company and design-partner tools require no authentication; authenticated operators can also use the advisory-only GTM review tool.",
-  "version": "0.2.0",
+  "description": "CreationCode product information and design-partner signup. Public discovery; no build execution.",
+  "version": "0.2.1",
   "repository": {
     "url": "https://github.com/marino129/creationloop-mcp",
     "source": "github"
