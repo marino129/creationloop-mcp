@@ -1,228 +1,74 @@
-# CreationLoop MCP Server
+# CreationCode public discovery MCP
 
-**CreationLoop is your Marketing Agent.**
+**CreationLoop is the company. CreationCode is the current product.**
 
-> Verified agent output. The recursive loop that gets better, and proves it.
+> CreationCode product information and design-partner signup. Public discovery only; no build execution.
 
-This is the public listing for CreationLoop's remote MCP server. The server lets
-any MCP-capable agent read CreationLoop's canonical company information and submit
-a design-partner application on a user's behalf. It is a hosted, remote server:
-there is nothing to install and no key to configure. Point your client at the
-endpoint below and connect.
+CreationCode helps founders and small software teams scope AI software work, review a plan and maximum cost, review the result, and retain a verifiable delivery record. Earlier marketing-agent listings are outdated. This endpoint does not provision a CMO or a short-form video service.
 
-- **Endpoint:** `https://creationloop.ai/api/mcp`
-- **Transport:** Streamable HTTP (stateless, JSON responses)
-- **Authentication:** none required
-- **Method:** `POST` only (JSON-RPC 2.0)
+## Two different connections
 
----
+**Public discovery and signup (this repository).** Three deterministic read tools explain the current product, offer, and FAQ. One submission tool records an application with the applicant's permission. It does not create a build, authorize work, merge, deploy, or charge.
 
-## What the server is
+**Authenticated software delivery (separate).** Start at https://creationcode.ai/ and use the authenticated build connection configured in CreationCode. Its separate human approval gates still apply. Do not substitute this public endpoint for that connection or advertise build tools under this public listing.
 
-CreationLoop is a Marketing Agent for early-stage founders and small brands. The
-MCP server exposes a small, deterministic surface: three read tools that return
-CreationLoop's canonical public copy verbatim, and one write tool that submits a
-design-partner application. No model sits in the response path of the read tools,
-so their output is fixed text, not generated on the fly.
+## Existing connection is preserved
 
-The server is remote and hosted by CreationLoop. Your client connects over
-Streamable HTTP; there is no local process, no package to install, and no
-credential to supply.
+- Endpoint: `https://creationloop.ai/api/mcp`
+- Registry identity: `ai.creationloop/creationloop` (retained for compatibility)
+- Runtime name: `creationloop`
+- Transport: Streamable HTTP, stateless JSON responses
+- Public authentication: none
+- Method: `POST` JSON-RPC 2.0; `GET` and `DELETE` return `405`
+- No endpoint, registry namespace, or private GTM token rotation is part of this copy migration.
 
----
+The legacy hostname is a compatibility address, not the product name. Documentation changes alone do not prove deployment; verify the live tools and product copy before treating the migration as released.
 
-## Transport details
+## Public tools
 
-The server implements the MCP Streamable HTTP transport in **stateless** mode:
+| Tool | Purpose and effects |
+| --- | --- |
+| `get_company_overview` | Read the current CreationCode overview and public-versus-build access distinction. No write or model generation. |
+| `get_design_partner_offer` | Read current software design-partner terms and application expectations. No submission or authorization. |
+| `get_faq` | Read current product, signup, and build-access answers. No write or model generation. |
+| `submit_design_partner_application` | With applicant permission, record contact details and any message. A genuinely new signup triggers a welcome email and founder notification. No build or payment authorization. |
 
-- **URL:** `https://creationloop.ai/api/mcp`
-- **Accepted method:** `POST` with a JSON-RPC 2.0 body.
-- **Response mode:** plain JSON (`application/json`). The server runs with JSON
-  responses enabled and no SSE stream, so each request gets a single JSON reply.
-- **Sessions:** none. Every request builds a fresh server and transport pair, so
-  there is no session id to track and no session to resume or delete.
-- **`GET` and `DELETE`:** return HTTP `405` with a JSON-RPC error
-  (`code -32000`, message "Method not allowed. POST JSON-RPC to this endpoint.").
-  Because the server is stateless there is no SSE stream to open on `GET` and no
-  session to remove on `DELETE`.
-- **Server identity:** name `creationloop`, version `0.1.0`.
+The submission contract is unchanged: `email` and `website` are required strings; `name`, `company`, and `message` are optional. Unknown fields are rejected. Limits remain email 3–320 characters, website 1–500, name/company up to 200 each, message up to 2000. Ask in `message`: **What are you building, and where did you find us?** Never include credentials or confidential project data.
 
-### Rate limits
+Duplicate email addresses do not create another row or resend signup emails. A duplicate submission does not update previously stored application details. Public traffic is limited to 30 requests/minute per IP; applications have a tighter 5/minute limit.
 
-Limits are per client IP, on a fixed 60 second window:
+## Source and attribution
 
-- **All MCP traffic:** up to 30 requests per minute. Over the limit, the server
-  replies with HTTP `429` and a JSON-RPC error (`code -32000`, message
-  "Too many requests. Try again shortly.").
-- **`submit_design_partner_application`:** a tighter 5 submissions per minute.
-  Over the limit, the tool returns a tool result flagged as an error with the
-  text "Too many requests. Try again shortly." (the JSON-RPC call itself
-  succeeds; the error is carried in the tool result).
+The stored `source` remains `design-partner-mcp:{host}`, capped at 64 characters. `{host}` comes from the applicant-supplied website, with leading `www.` removed. **It is not a referring directory.** The raw website URL is not stored; name, company, and message have their existing nullable columns.
 
----
+The refreshed notification includes supplied application details and the actual submission handler. Directory discovery is unknown unless separately established. Discovery details supplied in a message are self-reported; a current offer version does not prove which listing or copy the applicant saw. There is no new attribution database migration in this release.
 
-## Tool reference
+## Read-only verification
 
-The server exposes four tools.
-
-### `get_company_overview`
-
-- **Input:** none. Schema is an object with no properties (`additionalProperties: false`).
-- **Output:** a single text block. What CreationLoop is, how the content loop
-  works, the two run modes, proof, philosophy, and the pricing stance, served
-  verbatim from CreationLoop's canonical site copy.
-
-### `get_design_partner_offer`
-
-- **Input:** none. Schema is an object with no properties (`additionalProperties: false`).
-- **Output:** a single text block describing the design-partner program: what
-  partners get, what CreationLoop asks in return, and how to apply. Served
-  verbatim from the canonical site copy.
-
-### `get_faq`
-
-- **Input:** none. Schema is an object with no properties (`additionalProperties: false`).
-- **Output:** a single text block of frequently asked questions and answers,
-  served verbatim from the canonical site copy.
-
-### `submit_design_partner_application`
-
-Submits an application to CreationLoop's design-partner program. The founder
-reviews every application and follows up by email.
-
-**Input schema** (strict; unknown fields are rejected):
-
-| Field     | Type   | Required | Constraints            | Server field description (verbatim)                                  |
-|-----------|--------|----------|------------------------|----------------------------------------------------------------------|
-| `email`   | string | yes      | valid email, 3 to 320 chars | "Applicant email address (required)."                            |
-| `website` | string | yes      | 1 to 500 chars         | "The brand's website URL (required)."                                |
-| `name`    | string | no       | up to 200 chars        | "Applicant name (optional)."                                         |
-| `company` | string | no       | up to 200 chars        | "Company name (optional)."                                           |
-| `message` | string | no       | up to 2000 chars       | "What should your CMO know? Context for the email follow-up (optional)." |
-
-> The field descriptions above are the server's own text, reproduced verbatim
-> so agents match the deployed contract exactly.
-
-**Output:** a text confirmation. On success the message confirms the application
-was received for the brand's host and states that the founder reviews every
-application and follows up at the email provided. On invalid input the tool
-returns an error result naming the validation problem.
-
-**What is stored.** A successful submission records a lead row with:
-
-- the **email**, normalized (trimmed and lowercased);
-- a **source** string of the form `design-partner-mcp:{host}`, where `{host}` is
-  the hostname derived from the `website` value (leading `www.` stripped), with
-  the whole source string capped at 64 characters;
-- the **name**, **company**, and **message** you provide, each trimmed to its
-  content or stored as null when blank or absent;
-- a server-assigned id and a creation timestamp.
-
-**What is not stored.** The raw `website` URL is not persisted; only the derived
-hostname survives, inside the `source` string. The requester's IP address is used
-only for in-memory rate limiting and is not written to storage.
-
-**Idempotency and email.** Submissions are idempotent on the email address: a
-duplicate email does not create a second row. Welcome and internal notification
-emails are sent only for a genuinely new signup. If persistence fails, the tool
-returns an error asking the applicant to email the founder directly instead.
-
----
-
-
-## Private GTM review plugin
-
-The same hosted MCP endpoint can expose one additional advisory-only tool,
-`review_gtm_sweep`, to an authenticated CreationLoop operator. The tool reviews
-a ten-person creationcode prospect packet and returns recommendations. It cannot
-approve, send, connect, comment, or perform any external action.
-
-The Cursor/GrokBot plugin in this repository declares `GTM_REVIEW_TOKEN` as a
-protected plugin variable. Cursor stores the value through its plugin
-configuration surface and injects it into the HTTP MCP authorization header. Do
-not place the token in chat, source code, `mcp.json`, a URL, or shell history.
-
-To install:
-
-1. Paste `https://github.com/marino129/creationloop-mcp` into the plugin search.
-2. Install `creationloop-gtm-review`.
-3. Open the plugin's Configure screen.
-4. Enter `GTM_REVIEW_TOKEN` in the protected variable field.
-5. Attach the plugin to GrokBot and list tools. The authenticated connection
-   exposes only `review_gtm_sweep`; it does not grant the public application
-   submission tool or any execution capability.
-
-The repository contains only the `${GTM_REVIEW_TOKEN}` placeholder. Secret
-material remains outside Git.
-
----
-
-## Connect
-
-The server is a remote Streamable HTTP MCP server with no authentication. Use the
-config block for your client.
-
-### Claude Code
-
-Add the server from the command line:
-
-```sh
-claude mcp add --transport http creationloop https://creationloop.ai/api/mcp
-```
-
-### Claude Desktop
-
-Claude Desktop connects to remote Streamable HTTP servers through the `mcp-remote`
-bridge. Add this to your `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "creationloop": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://creationloop.ai/api/mcp"]
-    }
-  }
-}
-```
-
-If your version of Claude Desktop supports custom remote connectors directly, you
-can instead add the endpoint URL `https://creationloop.ai/api/mcp` as a custom
-connector with no authentication.
-
-### Cursor
-
-Add this to your Cursor MCP config (`~/.cursor/mcp.json` for a global entry, or
-`.cursor/mcp.json` in a project):
-
-```json
-{
-  "mcpServers": {
-    "creationloop": {
-      "url": "https://creationloop.ai/api/mcp"
-    }
-  }
-}
-```
-
----
-
-## Verify the connection
-
-Once connected, ask your client to list tools. You should see
-`get_company_overview`, `get_design_partner_offer`, `get_faq`, and
-`submit_design_partner_application`. A raw check with `curl`:
+Use a client that supports remote Streamable HTTP, with the endpoint above and no public credentials. Verify `tools/list` and the three read-tool responses. Do not submit a test application to production: that stores a record and can send emails.
 
 ```sh
 curl -sS https://creationloop.ai/api/mcp \
-  -H "Content-Type: application/json" \
-  -H "Accept: application/json" \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+
+curl -sS https://creationloop.ai/api/mcp \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"get_company_overview","arguments":{}}}'
 ```
 
----
+The overview should identify CreationCode, retire the old CMO service promise, and distinguish this public connector from authenticated builds. Public tool names must remain unchanged.
+
+## Private GTM review plugin: unchanged
+
+The existing Cursor/GrokBot plugin remains `creationloop-gtm-review`. Its protected `GTM_REVIEW_TOKEN` is injected through the client's secret configuration, never committed or pasted into chat. Valid authenticated GTM access exposes only `review_gtm_sweep`; it does not expose public signup or execution capabilities. It reviews ten researched prospects and cannot approve or send outreach. Do not replace the private plugin configuration with a public signup configuration.
+
+## Listing maintenance
+
+See `SUBMISSIONS.md` for the existing-listing migration and release gates, and `llms-install.md` for agent installation boundaries. The repository name and logo remain stable; signed agent history and receipts are not rebranded.
 
 ## License
 
-The contents of this listing repository (documentation and configuration) are
-released under the MIT License. See [LICENSE](./LICENSE).
+Repository documentation and configuration are MIT licensed. See `LICENSE`.
