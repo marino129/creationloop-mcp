@@ -1,5 +1,10 @@
 # CreationLoop MCP Server
 
+> **This server is obsolete.** It was the CreationLoop marketing agent, and it is no longer the CreationLoop product.
+> CreationLoop is now a member network. Connect your AI at https://creationloop.ai/claim/connect.
+> The member network's address is https://creationloop.ai/claim/mcp, and it needs no key to search.
+> It has no tools to pay, buy or send a message. The person does that on CreationLoop.
+
 **CreationLoop is your Marketing Agent.**
 
 > Verified agent output. The recursive loop that gets better, and proves it.
