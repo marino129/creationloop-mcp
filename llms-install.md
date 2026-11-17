@@ -1,81 +1,124 @@
-# CreationLoop MCP: Agent Install Guide
+# Connect an AI client to CreationLoop
 
-> **This server is obsolete.** It was the CreationLoop marketing agent, and it is no longer the CreationLoop product.
-> CreationLoop is now a member network. Connect your AI at https://creationloop.ai/claim/connect.
-> The member network's address is https://creationloop.ai/claim/mcp, and it needs no key to search.
-> It has no tools to pay, buy or send a message. The person does that on CreationLoop.
+> Draft documentation, prepared November 17, 2026, pending independent review.
+> These are setup and verification instructions. This change supplies no new
+> live ChatGPT or Claude test result and makes no directory approval claim.
 
-This file is written for an AI agent (such as Cline) setting up the CreationLoop
-MCP server on a user's behalf. Follow these steps exactly.
+## Connection
 
-## What this server is
+Use the public member and agent discovery endpoint:
 
-CreationLoop is a Marketing Agent. This is a **remote** MCP server hosted by
-CreationLoop. There is nothing to clone, build, or install locally, and there is
-no API key, token, or environment variable to set. You only add a remote server
-entry pointing at the public endpoint.
+```text
+https://creationloop.ai/claim/mcp
+```
 
-- **Endpoint:** `https://creationloop.ai/api/mcp`
-- **Transport:** Streamable HTTP (stateless, JSON responses)
-- **Authentication:** none
+It uses Streamable HTTP, stateless JSON-RPC over `POST`. Public discovery
+requires no key. Do not ask a person for a provider key to run public searches.
+Creating or publishing a profile is a separate website flow.
 
-## Install steps
+| Destination | Address |
+| --- | --- |
+| Create your profile | https://creationloop.ai/claim/start |
+| Find agents | https://creationloop.ai/claim/browse?view=agents |
+| Browse people and published services | https://creationloop.ai/claim/browse |
+| Web portal | https://creationloop.ai/claim/members |
+| Connection guide | https://creationloop.ai/claim/connect |
 
-1. **Do not** run any install, build, or clone command. This server is remote.
-2. Add a new MCP server entry to the user's MCP settings file. Use the key
-   `creationloop` and the remote endpoint URL. The shape is:
+Share a destination when it helps answer the person's request. Do not append
+onboarding or sales links to unrelated answers.
 
-   ```json
-   {
-     "mcpServers": {
-       "creationloop": {
-         "url": "https://creationloop.ai/api/mcp"
-       }
-     }
-   }
-   ```
+## Client setup
 
-3. If the client only supports launching a local command and cannot dial a remote
-   URL directly, bridge to it with `mcp-remote`:
+### ChatGPT custom connection
 
-   ```json
-   {
-     "mcpServers": {
-       "creationloop": {
-         "command": "npx",
-         "args": ["-y", "mcp-remote", "https://creationloop.ai/api/mcp"]
-       }
-     }
-   }
-   ```
+Follow OpenAI's current
+[custom MCP connection guide](https://developers.openai.com/plugins/deploy/connect-chatgpt):
+open Plugins, choose Add custom MCP server, enter the public endpoint, configure
+no authentication for public discovery, review the connection and create it as
+a plugin. Account and workspace policies apply.
 
-4. Save the settings file and reload the MCP servers.
+This creates a custom connection. It does not approve or publish a public
+directory entry. Before a public submission, use the
+[ChatGPT submission preparation scope](./SUBMISSIONS.md#chatgpt-submission-preparation).
 
-## Verify
+### Claude
 
-List the server's tools. You should see exactly four:
+Use Claude's custom remote connector flow with the public endpoint and no
+authentication for public discovery. The
+[CreationLoop connection page](https://creationloop.ai/claim/connect?client=claude)
+contains the checked-in setup steps. Confirm them against the current client
+before recording a successful test.
 
-- `get_company_overview`
-- `get_design_partner_offer`
-- `get_faq`
-- `submit_design_partner_application`
+For Claude Code, the command recorded by the implementation guide is:
 
-Call `get_company_overview` with empty arguments (`{}`). A successful response is
-a text block describing CreationLoop. That confirms the server is connected.
+```sh
+claude mcp add --transport http creationloop https://creationloop.ai/claim/mcp
+```
 
-## Tool notes for the agent
+### Other clients
 
-- The three `get_*` tools take **no arguments**. Pass an empty object.
-- `submit_design_partner_application` requires `email` and `website`. `name`,
-  `company`, and `message` are optional. Unknown fields are rejected. Only submit
-  it when the user has clearly asked to apply to the design-partner program, and
-  confirm the email address with the user first.
-- No tool requires or accepts credentials.
+For a client whose configuration uses `mcpServers` with an HTTP `url`:
+
+```json
+{
+  "mcpServers": {
+    "creationloop": {
+      "url": "https://creationloop.ai/claim/mcp"
+    }
+  }
+}
+```
+
+Use the client's current documented configuration format. The root `mcp.json`
+in this repository is for private GTM review and must not be copied as the
+public discovery setup.
+
+## Verify the connection
+
+1. Initialize the connection and list the tools on the target deployment.
+2. Check for the five baseline public tools below. Record any additional tools.
+3. Call `search_members` and inspect a public result with `get_member`.
+4. Call `search_agents`, then use a returned ID with `get_agent`.
+5. Check the returned public profile and Trust Card links. An empty result
+   is a valid answer; it is not proof that the whole discovery journey works.
+6. Record client name and version, endpoint, time, tool list, arguments,
+   response, errors and link results. Use those records for client claims.
+
+| Baseline public tool | Arguments |
+| --- | --- |
+| `search_members` | `{}` or `{ "query": "video" }`; use the returned `next` as `after` for another page |
+| `get_member` | `{ "code": "<code returned by search_members>" }` |
+| `search_agents` | `{}` or `{ "query": "<registry ID, public member name or relationship>" }` |
+| `get_agent` | `{ "agent_id": "<ID returned by search_agents>" }` |
+| `start_message` | `{ "code": "<code returned by search_members>" }`; returns a website handoff only |
+
+When work and job integration is enabled, `start_job` may also be listed.
+Its arguments are `offerId` from a published member offer and a stable
+`submissionKey` for the ask. Its public result is only a handoff link; it
+starts no work and charges nothing.
+
+## Interpret results
+
+- Member search includes approved published service words. There is no
+  separate `search_services` or `get_service` tool.
+- Agent search matches registry IDs, public member names and declared
+  relationships. It does not search capability fields or evaluate evidence.
+- `member_declared` records a person's published relationship to an agent.
+  It does not verify ownership or work.
+- A Trust Card URL is a reference to evidence. Opening a link and checking
+  evidence are separate steps.
+- Public discovery does not grant private history, payment, approval or
+  execution rights.
 
 ## Troubleshooting
 
-- **`405 Method not allowed`:** the client sent a `GET` or `DELETE`. This server
-  accepts `POST` JSON-RPC only. Use a client that speaks the MCP Streamable HTTP
-  transport over `POST`.
-- **`429 Too many requests`:** you exceeded the per-IP rate limit (30 requests per
-  minute overall, 5 per minute for application submissions). Wait and retry.
+- `405`: use an MCP client that sends JSON-RPC over `POST`; a browser `GET`
+  does not establish whether the MCP connection works.
+- `429`: respect the response and retry after the applicable limit.
+- Missing tools or a different server identity: record the actual result and
+  compare it with the intended deployment. Do not relabel old marketing tools.
+- No matches: say that this search returned no public matches. Check the
+  query and the provider's published status before claiming an integration failed.
+
+Use [`members/server.json`](./members/server.json) for the current discovery
+manifest. The root `server.json` records the retired marketing identity.
